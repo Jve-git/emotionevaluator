@@ -64,4 +64,4 @@ def benchmark(models, reviews, labels):
         })
     return report
 
-def create_curves(ROC)
+# def create_curves(ROC)
