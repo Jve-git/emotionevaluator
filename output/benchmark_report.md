@@ -1,0 +1,4 @@
+| model                                   |   accuracy |   precision |   recall |       f1 |
+|:----------------------------------------|-----------:|------------:|---------:|---------:|
+| siebert/sentiment-roberta-large-english |       0.95 |    0.95122  | 0.928571 | 0.939759 |
+| aychang/roberta-base-imdb               |       0.99 |    0.976744 | 1        | 0.988235 |
