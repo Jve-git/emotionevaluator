@@ -29,12 +29,6 @@ def perform_sentiment_analysis(model_name, reviews):
     # Get predictions
     results = classifier(reviews, truncation=True)
 
-    # Display results
-    # for text, result in zip(reviews, results):
-        # print(f"Text: {text}")
-        # print(f"Label: {result['label']} | Score: {result['score']:.4f}")
-        # print("---")
-
     sentiments = [r['label'] for r in results]
     return sentiments
 

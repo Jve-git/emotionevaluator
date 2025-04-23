@@ -10,8 +10,8 @@ labels = [1 if label.lower() == "positive" else 0 for label in labels]
 
 print("Performing sentiment analysis...")
 models = [
-        "distilbert-base-uncased-finetuned-sst-2-english",
-        "siebert/sentiment-roberta-large-english"
+        "distilbert-base-uncased-finetuned-sst-2-english", # Default model for sentiment-analysis pipeline
+        "siebert/sentiment-roberta-large-english", # Large RoBERTa model fine-tuned on diverse sentiment data High performance on general-purpose sentiment tasks
     ]
 
 all_results = []
