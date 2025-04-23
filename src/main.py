@@ -12,14 +12,17 @@ print("Performing sentiment analysis...")
 models = [
         "distilbert-base-uncased-finetuned-sst-2-english", # Default model for sentiment-analysis pipeline
         "siebert/sentiment-roberta-large-english", # Large RoBERTa model fine-tuned on diverse sentiment data High performance on general-purpose sentiment tasks
+        "aychang/roberta-base-imdb" # Specifically trained on the IMDB dataset
     ]
 
 all_results = []
+sentiments_list = []
 for model_name in models:
     print(f"Evaluating {model_name}...")
-    sentiments = perform_sentiment_analysis(model_name, reviews)
-    generate_output(reviews, sentiments, model_name, f"output_{model_name.split('/')[0]}.csv")
+    results, classifier, sentiments = perform_sentiment_analysis(model_name, reviews)
+    sentiments_list.append(sentiments)
+    generate_output(reviews, sentiments, model_name, f"output/output_{model_name.split('/')[0]}.csv")
 
 print("Benchmarking...")
-report = benchmark(models, reviews, labels)
-pd.DataFrame(report).to_markdown("benchmark_report.md", index=False)
+report = benchmark(models, reviews, labels, sentiments_list)
+pd.DataFrame(report).to_markdown("output/benchmark_report.md", index=False)
