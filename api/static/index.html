@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2em;
+            background-color: #ffa500;
+            transition: background-color 0.5s ease;
+        }
+
+        h1 {
+            color: rgba(255, 0, 60, 0.789);
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 1em;
+            font-size: 1em;
+            border: none;
+            border-radius: 12px;
+            background-color: #fff6f9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            resize: vertical;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            background-color: #fff0f5;
+            box-shadow: 0 0 0 3px rgba(255, 0, 92, 0.3);
+        }
+
+        button {
+            margin-top: 1em;
+            padding: 0.75em 1.5em;
+            background-color: #ff005c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #e6004f;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #cc0044;
+            transform: scale(0.98);
+        }
+
+        #result {
+            margin-top: 1em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentiment Analysis</h1>
+    <textarea id="textInput" placeholder="Enter your text here..."></textarea><br>
+    <button onclick="analyzeSentiment()">Analyze</button>
+    <div id="result"></div>
+
+    <script>
+        let resetTimeout;
+
+        async function analyzeSentiment() {
+            const text = document.getElementById("textInput").value;
+            const response = await fetch("/sentiment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text })
+            });
+
+            const data = await response.json();
+            document.getElementById("result").innerText =
+                `Sentiment: ${data.sentiment}, Score: ${data.score.toFixed(3)}`;
+
+            // Clear any previous timeout
+            clearTimeout(resetTimeout);
+
+            // Change background color based on sentiment
+            if (data.sentiment === "POSITIVE") {
+                document.body.style.backgroundColor = "#4caf50"; // green
+            } else if (data.sentiment === "NEGATIVE") {
+                document.body.style.backgroundColor = "#8b0000"; // dark red
+            } else {
+                document.body.style.backgroundColor = "#ffa500"; // default
+            }
+
+            // Reset background to original after 10 seconds
+            resetTimeout = setTimeout(() => {
+                document.body.style.backgroundColor = "#ffa500";
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
