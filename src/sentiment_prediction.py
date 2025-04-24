@@ -4,6 +4,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score, confusion_m
 import re
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 def read_data(input_data) -> pd.DataFrame:
     '''
@@ -27,8 +28,16 @@ def perform_sentiment_analysis(model_name, reviews):
     # Load sentiment analysis pipeline
     classifier = pipeline("sentiment-analysis", model_name)
 
+    # Start timing
+    start_time = time.time()
+
     # Get predictions
     results = classifier(reviews, truncation=True)
+
+    # End timing
+    end_time = time.time()
+    inference_time = end_time - start_time
+    print(f"[{model_name}] Inference Time: {inference_time:.2f} seconds for {len(reviews)} reviews")
 
     sentiments = [r['label'] for r in results]
     return results, classifier, sentiments
