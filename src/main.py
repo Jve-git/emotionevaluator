@@ -19,7 +19,6 @@ reviews = dataset.iloc[:, 0].tolist()
 reviews = [preprocessing_text(review) for review in reviews]
 labels = dataset.iloc[:, 1].tolist()
 labels = [1 if label.lower() == "positive" else 0 for label in labels]
-
 logging.info("Performing sentiment analysis...")
 models = [
     "distilbert-base-uncased-finetuned-sst-2-english",  # Default model for sentiment-analysis pipeline
@@ -30,7 +29,7 @@ models = [
 all_results = []
 sentiments_list = []
 for model_name in models:
-    print(f"Evaluating {model_name}...")
+    logging.info(f"Evaluating {model_name}...")
     results, classifier, sentiments = perform_sentiment_analysis(model_name, reviews)
     sentiments_list.append(sentiments)
     generate_output(
@@ -38,5 +37,6 @@ for model_name in models:
     )
 
 logging.info("Benchmarking...")
+print(f"sentiment list!!!!! {sentiments_list}")
 report = benchmark(models, reviews, labels, sentiments_list)
 pd.DataFrame(report).to_markdown("output/benchmark_report.md", index=False)
