@@ -37,6 +37,5 @@ for model_name in models:
     )
 
 logging.info("Benchmarking...")
-print(f"sentiment list!!!!! {sentiments_list}")
 report = benchmark(models, reviews, labels, sentiments_list)
 pd.DataFrame(report).to_markdown("output/benchmark_report.md", index=False)

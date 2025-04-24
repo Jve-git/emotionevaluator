@@ -2,15 +2,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-import os
 import sys
-
-# Import your sentiment function
-try:
-    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-    from src.sentiment_prediction import perform_sentiment_analysis
-except ImportError as e:
-    raise ImportError(f"Error importing sentiment analysis function: {e}")
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from sentiment_prediction import perform_sentiment_analysis
 
 app = FastAPI()
 

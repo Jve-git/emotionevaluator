@@ -1,19 +1,11 @@
 import pytest
-import pandas as pd
-import os
-import sys
-
-try:
-    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-    from src.sentiment_prediction import (
-    read_data,
-    preprocessing_text,
-    perform_sentiment_analysis,
-    generate_output,
-    benchmark,
+from src.sentiment_prediction import (
+read_data,
+preprocessing_text,
+perform_sentiment_analysis,
+generate_output,
+benchmark,
 )
-except ImportError as e:
-    raise ImportError(f"Error importing sentiment_prediction file: {e}")
 
 # --- Fixtures ---
 
