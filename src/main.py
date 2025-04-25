@@ -28,14 +28,24 @@ models = [
 
 all_results = []
 sentiments_list = []
+pred_dict = {}
 for model_name in models:
+    pred_list = []
     logging.info(f"Evaluating {model_name}...")
     results, classifier, sentiments = perform_sentiment_analysis(model_name, reviews)
     sentiments_list.append(sentiments)
+    # for the lift curve
+    for result in results:
+        if result["label"][:3].lower() == "pos":
+            pred = result["score"]
+        else:
+            pred = 1 - result["score"]
+        pred_list.append(pred)
+    pred_dict[model_name] = pred_list
     generate_output(
         reviews, sentiments, model_name, f"output/output_{model_name.split('/')[0]}.csv"
     )
 
 logging.info("Benchmarking...")
-report = benchmark(models, reviews, labels, sentiments_list)
+report = benchmark(models, reviews, labels, sentiments_list, pred_dict)
 pd.DataFrame(report).to_markdown("output/benchmark_report.md", index=False)

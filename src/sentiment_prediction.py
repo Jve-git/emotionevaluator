@@ -73,6 +73,7 @@ def benchmark(
     reviews: List[str],
     labels: List[str],
     sentiments_list: List[List[str]],
+    pred_dict: dict[str, list[float]],
 ) -> List[Dict[str, Union[str, float]]]:
     report = []
     for model_name, sentiments in zip(models, sentiments_list):
@@ -104,9 +105,13 @@ def benchmark(
         plt.close()
         # lift curve
 
-        sorted_indices = np.argsort(preds)[::-1]
+        sorted_indices = np.argsort(pred_dict[model_name])[
+            ::-1
+        ]  # Sort by predicted score (highest to lowest)
         labels_array = np.array(labels)
-        labels_sorted = labels_array[sorted_indices]
+        labels_sorted = labels_array[
+            sorted_indices
+        ]  # Reorder labels based on score ranking
         # preds_sorted = preds[sorted_indices]
 
         cumulative_positives = np.cumsum(labels_sorted)
